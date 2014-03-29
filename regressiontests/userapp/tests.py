@@ -52,7 +52,6 @@ from django.db import IntegrityError, transaction
 from django.core.handlers.wsgi import WSGIRequest
 from django.template import Template, RequestContext, TemplateSyntaxError
 from django.core.cache import cache
-from django.utils.hashcompat import md5_constructor
 from django.utils.encoding import iri_to_uri
 from django.core.management import call_command
 
@@ -666,7 +665,7 @@ class MetaOptions(TestCase):
         """
         if 'dummy' not in settings.CACHE_BACKEND:
             path = '/'
-            hexpath = md5_constructor(iri_to_uri(path)).hexdigest() 
+            hexpath = hashlib.md5(iri_to_uri(path)).hexdigest() 
 
             #unicode(seo_get_metadata(path, name="Coverage"))
             unicode(seo_get_metadata(path, name="WithCache"))
@@ -681,7 +680,7 @@ class MetaOptions(TestCase):
         if 'dummy' not in settings.CACHE_BACKEND:
             path = '/'
             site = Site.objects.get_current()
-            hexpath = md5_constructor(iri_to_uri(site.domain+path)).hexdigest()
+            hexpath = hashlib.md5(iri_to_uri(site.domain+path)).hexdigest()
 
             #unicode(seo_get_metadata(path, name="Coverage"))
             unicode(seo_get_metadata(path, name="WithCacheSites", site=site))
@@ -695,7 +694,7 @@ class MetaOptions(TestCase):
         """
         if 'dummy' not in settings.CACHE_BACKEND:
             path = '/'
-            hexpath = md5_constructor(iri_to_uri(path)).hexdigest()
+            hexpath = hashlib.md5(iri_to_uri(path)).hexdigest()
 
             #unicode(seo_get_metadata(path, name="Coverage"))
             unicode(seo_get_metadata(path, name="WithCacheI18n", language='de'))
